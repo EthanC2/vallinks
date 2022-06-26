@@ -27,7 +27,7 @@ impl LinkParser {
                             .redirect(redirect::Policy::limited(10))
                             .timeout(core::time::Duration::from_secs(30))
                             .build()
-                            .expect("fatal: could not build client in src/link_parser");
+                            .expect("fatal: could not build HTTP client in src/link_parser::new()");
 
         Self {client: client, websites: Vec::new(), cache: HashSet::new() }
     }
@@ -46,21 +46,17 @@ impl LinkParser {
         }
 
         for a_tag in document.select(&link_selector) {
-            if a_tag.value().attr("href").is_some() {   //todo: why doesn't 'if let a_tag.value().attr("href")' work here?
-                let href = a_tag.value().attr("href").unwrap();
-                
+            if let Some(href) = a_tag.value().attr("href") {
                 if !self.cache.contains(href) {
                     let url: Url;
-
                     if Self::is_relative_link(href) {
                         url = base_url.join(href).unwrap();
                     } else {
                         url = Url::parse(href).unwrap();
                     }
 
-                    self.cache.insert(String::from(url.as_str()));
-                    let link = Link::new(&self.client, url).await;
-                    website.links.push(link);
+                    self.cache.insert(href.to_owned());
+                    website.links.push(Link::new(url));
                 }
             }
         }
@@ -68,6 +64,7 @@ impl LinkParser {
         Ok(())
     }
 
+    //TODO: fix bug that causes 'mailto: ' to be counted as a relative link.
     fn is_relative_link(url: &str) -> bool { //TODO: make 'http_regex' static with 'lazy_static!'
         lazy_static! {
             static ref HTTP_REGEX: Regex = Regex::new(r#"^http"#).expect("failed to unwrap regex in src/link_parser");

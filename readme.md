@@ -19,7 +19,8 @@ This project seaches broken hrefs (hypertext references) in HTML \<a\> tags.
 A website, represented by an HTML document
 
 # Log/Output Format
-\<status_code\> \<parent_site_url\> \<link_url\>
+\<status\> \<url\>
 
 # Known Bugs
 - Advertisments always yield 'HTTP Error 405: Method Not Allowed'
+- Hyperlinks that do not use the HTTP(S) protocol are considered relative links (src/link_parser::is_relative_link()).
