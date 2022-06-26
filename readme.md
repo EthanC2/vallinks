@@ -13,9 +13,13 @@ This project seaches broken hrefs (hypertext references) in HTML \<a\> tags.
 - Fix website::Website::new() so it allows URLs without the 'https?://' prefix
 - Add async 
 - Figure why the hell reqwest::client::get requires by-value src/website
+- Rework 'LinkParser::cache' to use '&str' instead of 'String'
 
 # Internals Overview
 A website, represented by an HTML document
 
 # Log/Output Format
 \<status_code\> \<parent_site_url\> \<link_url\>
+
+# Known Bugs
+- Advertisments always yield 'HTTP Error 405: Method Not Allowed'

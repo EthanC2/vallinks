@@ -1,5 +1,4 @@
-use reqwest::{Client, Result};
-use url::Url;
+use reqwest::{Client, Url, Result};
 
 use crate::link::Link;
 

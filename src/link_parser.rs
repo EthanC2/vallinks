@@ -14,13 +14,13 @@ use crate::link::Link;
 const APP_VERSION: &str = "0.1.0";
 const USER_AGENT: &str = concatcp!("VALLINKS", "/", APP_VERSION);
 
-pub struct LinkParser<'url> {
+pub struct LinkParser {
     pub client: reqwest::Client,
     pub websites: Vec<Website>,
-    cache: HashSet<&'url str>,
+    cache: HashSet<String>,
 }
 
-impl LinkParser<'_> {
+impl LinkParser {
     pub fn new() -> Self {
         let client = Client::builder()
                             .user_agent(USER_AGENT)
@@ -58,9 +58,9 @@ impl LinkParser<'_> {
                         url = Url::parse(href).unwrap();
                     }
 
+                    self.cache.insert(String::from(url.as_str()));
                     let link = Link::new(&self.client, url).await;
                     website.links.push(link);
-                    self.cache.insert(href);
                 }
             }
         }

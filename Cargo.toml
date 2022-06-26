@@ -11,7 +11,6 @@ const_format = "0.2.25"
 lazy_static = "1.4.0"
 regex = "1.5.6"
 
-url = "2.2.2"
 reqwest = "0.11.11"
 scraper = "0.13.0"
 tokio = { version = "1.19.2", features = ["full"] }
