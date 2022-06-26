@@ -46,6 +46,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "const_format",
+ "lazy_static",
  "regex",
  "reqwest",
  "scraper",

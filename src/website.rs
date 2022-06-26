@@ -11,10 +11,6 @@ pub struct Website {
 
 impl Website {
     pub fn new(url: &str) -> Self {
-        // let http_regex = Regex::new(r#"^https?://"#).unwrap(); 
-        // if !http_regex.is_match(url) {
-        //     let url = format!("http://{}", url).as_str();
-        // }
         let url = Url::parse(url)
                         .expect(&format!("fatal: invalid website url format: {}", url));
         

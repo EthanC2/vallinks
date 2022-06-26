@@ -8,7 +8,12 @@ pub struct Link {
 
 impl Link {
     pub async fn new(client: &Client, url: Url) -> Self {
-        let status = client.head(url.clone()).send().await.unwrap().status(); 
+        let status = client.head(url.clone())
+                                    .send()
+                                    .await
+                                    .unwrap()
+                                    .status(); 
+                                    
         Link { href: url, status_code: status }
     }
 }

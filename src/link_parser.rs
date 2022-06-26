@@ -1,9 +1,10 @@
-use std::collections; //std::collections::HashSet prevents re-visiting links
+use std::collections::HashSet;
 
 use reqwest::{Client, Url, redirect};
 use scraper::{Html, Selector};
-use regex::Regex;
+use lazy_static::lazy_static;
 use const_format::concatcp;
+use regex::Regex;
 
 use crate::website::Website;
 use crate::link::Link;
@@ -13,12 +14,13 @@ use crate::link::Link;
 const APP_VERSION: &str = "0.1.0";
 const USER_AGENT: &str = concatcp!("VALLINKS", "/", APP_VERSION);
 
-pub struct LinkParser {
+pub struct LinkParser<'url> {
     pub client: reqwest::Client,
     pub websites: Vec<Website>,
+    cache: HashSet<&'url str>,
 }
 
-impl LinkParser {
+impl LinkParser<'_> {
     pub fn new() -> Self {
         let client = Client::builder()
                             .user_agent(USER_AGENT)
@@ -27,10 +29,10 @@ impl LinkParser {
                             .build()
                             .expect("fatal: could not build client in src/link_parser");
 
-        Self {client: client, websites: Vec::new()}
+        Self {client: client, websites: Vec::new(), cache: HashSet::new() }
     }
 
-    pub async fn get_links(&self, website: &mut Website) -> reqwest::Result<()> {
+    pub async fn get_links(&mut self, website: &mut Website) -> reqwest::Result<()> {
         let html = website.get_html(&self.client).await?;
         let document = Html::parse_document(&html);
         let link_selector = Selector::parse(r#"a"#).unwrap();
@@ -44,18 +46,22 @@ impl LinkParser {
         }
 
         for a_tag in document.select(&link_selector) {
-            if a_tag.value().attr("href").is_some() {
+            if a_tag.value().attr("href").is_some() {   //todo: why doesn't 'if let a_tag.value().attr("href")' work here?
                 let href = a_tag.value().attr("href").unwrap();
-                let mut url: Url;
+                
+                if !self.cache.contains(href) {
+                    let url: Url;
 
-                if Self::is_relative_link(href) {
-                    url = base_url.join(href).unwrap();
-                } else {
-                    url = Url::parse(href).unwrap();
+                    if Self::is_relative_link(href) {
+                        url = base_url.join(href).unwrap();
+                    } else {
+                        url = Url::parse(href).unwrap();
+                    }
+
+                    let link = Link::new(&self.client, url).await;
+                    website.links.push(link);
+                    self.cache.insert(href);
                 }
-
-                let link = Link::new(&self.client, url).await;
-                website.links.push(link);
             }
         }
 
@@ -63,7 +69,10 @@ impl LinkParser {
     }
 
     fn is_relative_link(url: &str) -> bool { //TODO: make 'http_regex' static with 'lazy_static!'
-        let http_regex: Regex = Regex::new(r#"^http"#).expect("failed to unwrap regex in src/link_parser");
-        !http_regex.is_match(url)
+        lazy_static! {
+            static ref HTTP_REGEX: Regex = Regex::new(r#"^http"#).expect("failed to unwrap regex in src/link_parser");
+        }
+
+        !HTTP_REGEX.is_match(url)
     }
 }

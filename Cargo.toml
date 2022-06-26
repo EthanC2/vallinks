@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 clap = { version = "3.2.6", features = ["derive"] }
 const_format = "0.2.25"
+lazy_static = "1.4.0"
 regex = "1.5.6"
 
 url = "2.2.2"
