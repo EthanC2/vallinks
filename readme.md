@@ -11,7 +11,6 @@ This project seaches broken hrefs (hypertext references) in HTML \<a\> tags.
 
 # Todo
 - Fix website::Website::new() so it allows URLs without the 'https?://' prefix
-- Add async 
 - Figure why the hell reqwest::client::get requires by-value src/website
 - Rework 'LinkParser::cache' to use '&str' instead of 'String'
 

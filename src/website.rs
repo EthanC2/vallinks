@@ -9,9 +9,9 @@ pub struct Website {
 }
 
 impl Website {
-    pub fn new(url: &str) -> Self {
-        let url = Url::parse(url)
-                        .expect(&format!("fatal: invalid website url format: {}", url));
+    pub fn new<TStr>(url: &TStr) -> Self where TStr: AsRef<str> {
+        let url = Url::parse(url.as_ref())
+                        .expect(&format!("fatal: invalid website url format: {}", url.as_ref()));
         
         Self {url: url, links: Vec::new()}
     }

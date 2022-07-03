@@ -1,5 +1,5 @@
 use reqwest::{Client, Url, Response, Result};
-use backoff::ExponentialBackoff;
+//use backoff::{ExponentialBackoff, retry};
 
 #[derive(Debug)]
 pub struct Link {
@@ -14,7 +14,7 @@ impl Link {
 
     pub async fn get_status(&mut self, client: &Client) {
         let url = self.href.clone();
-        let resp = client.head(url).send().await;
-        self.response = Some(resp);
+        let res = client.head(url).send().await;
+        self.response = Some(res);
     }
 }

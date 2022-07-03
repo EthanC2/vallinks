@@ -32,13 +32,25 @@ impl LinkParser {
         Self {client: client, websites: Vec::new(), cache: HashSet::new() }
     }
 
+    pub fn with_config(config: &Config) -> Self {
+        let client = Client::builder()
+                            .user_agent(USER_AGENT)
+                            .redirect(redirect::Policy::limited(config.max_redirects))
+                            .timeout(core::time::Duration::from_secs(config.timeout))
+                            .build()
+                            .expect("fatal: could not build HTTP client in src/link_parser::new()");
+
+        Self {client: client, websites: Vec::new(), cache: HashSet::new() }
+    }
+
+    /* Note: a <base> tag MAY not have a 'href': https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base */
     pub async fn get_links(&mut self, website: &mut Website) -> reqwest::Result<()> {
         let html = website.get_html(&self.client).await?;
         let document = Html::parse_document(&html);
-        let link_selector = Selector::parse(r#"a"#).unwrap();
+        let link_selector = Selector::parse(r#"a"#).expect("could not unwrap \'a\' tag selector");
 
         let mut base_url: Url = website.url.clone();
-        let base_selector = Selector::parse(r#"base"#).unwrap();
+        let base_selector = Selector::parse(r#"base"#).expect("could not unwrap \'base\' tag selector");;
         if let Some(base_tag) = document.select(&base_selector).nth(1) {
             if let Some(href) = base_tag.value().attr("href") {
                 base_url = Url::parse(href).unwrap_or(website.url.clone()); //todo: fix redundent assignment
@@ -71,5 +83,19 @@ impl LinkParser {
         }
 
         !HTTP_REGEX.is_match(url)
+    }
+}
+
+
+
+
+pub struct Config {
+    timeout: u64,
+    max_redirects: usize,
+}
+
+impl Config {
+    pub fn new(timeout: u64, max_redirects: usize) -> Self {
+        Self { timeout: timeout, max_redirects: max_redirects }
     }
 }
