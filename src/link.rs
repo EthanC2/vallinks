@@ -19,7 +19,7 @@ impl Link {
                                     .take(3);
 
         let action = || async {
-            let url = self.href.clone();
+            let url = self.href.clone();       //NOTE: must re-copy each time because 'action' cannot take a param
             client.head(url).send().await
         };
 

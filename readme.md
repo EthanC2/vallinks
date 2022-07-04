@@ -6,8 +6,7 @@ This project seaches broken hrefs (hypertext references) in HTML \<a\> tags.
 
 # Planned Features
 - Recursive searches
-- Reporting only bad links
-- Handling of HTTP error 429, backed by [exponential back-off](https://dzone.com/articles/understanding-retry-pattern-with-exponential-back) via [the backoff crate](https://crates.io/crates/backoff)
+- Parse HTML documents
 
 # Todo
 - Fix website::Website::new() so it allows URLs without the 'https?://' prefix
@@ -21,5 +20,5 @@ A website, represented by an HTML document
 \<status\> \<url\>
 
 # Known Bugs
-- Advertisments always yield 'HTTP Error 405: Method Not Allowed'
 - Hyperlinks that do not use the HTTP(S) protocol are considered relative links (src/link_parser::is_relative_link()).
+- Subdomains (e.g. 'https://sports.yahoo.com') always yield HTTP status 404
