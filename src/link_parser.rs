@@ -15,45 +15,45 @@ const APP_VERSION: &str = "0.1.0";
 const USER_AGENT: &str = concatcp!("VALLINKS", "/", APP_VERSION);
 
 pub struct LinkParser {
-    pub client: reqwest::Client,
-    pub websites: Vec<Website>,
+    pub http_client: reqwest::Client,
     cache: HashSet<String>,
 }
 
 impl LinkParser {
-    pub fn new() -> Self {
+    // not needed, but preserved in case
+    // pub fn new() -> Self {
+    //     let client = Client::builder()
+    //                         .user_agent(USER_AGENT)
+    //                         .redirect(redirect::Policy::limited(10))
+    //                         .timeout(core::time::Duration::from_secs(30))
+    //                         .build()
+    //                         .expect("fatal: could not build HTTP client in src/link_parser::new()");
+
+    //     Self {http_client: client, cache: HashSet::new() }
+    // }
+
+    pub fn with_config(max_redirects: &usize, timeout: &u64) -> Self {
         let client = Client::builder()
                             .user_agent(USER_AGENT)
-                            .redirect(redirect::Policy::limited(10))
-                            .timeout(core::time::Duration::from_secs(30))
+                            .redirect(redirect::Policy::limited(*max_redirects))
+                            .timeout(core::time::Duration::from_secs(*timeout))
                             .build()
-                            .expect("fatal: could not build HTTP client in src/link_parser::new()");
+                            .expect("fatal: could not build HTTP client in src/link_parser::with_config()");
 
-        Self {client: client, websites: Vec::new(), cache: HashSet::new() }
-    }
-
-    pub fn with_config(config: &Config) -> Self {
-        let client = Client::builder()
-                            .user_agent(USER_AGENT)
-                            .redirect(redirect::Policy::limited(config.max_redirects))
-                            .timeout(core::time::Duration::from_secs(config.timeout))
-                            .build()
-                            .expect("fatal: could not build HTTP client in src/link_parser::new()");
-
-        Self {client: client, websites: Vec::new(), cache: HashSet::new() }
+        Self {http_client: client, cache: HashSet::new() }
     }
 
     /* Note: a <base> tag MAY not have a 'href': https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base */
     pub async fn get_links(&mut self, website: &mut Website) -> reqwest::Result<()> {
-        let html = website.get_html(&self.client).await?;
+        let html = website.get_html(&self.http_client).await?;
         let document = Html::parse_document(&html);
-        let link_selector = Selector::parse(r#"a"#).expect("could not unwrap \'a\' tag selector");
+        let link_selector = Selector::parse(r#"a"#).expect("could not unwrap <a> tag selector");
 
         let mut base_url: Url = website.url.clone();
-        let base_selector = Selector::parse(r#"base"#).expect("could not unwrap \'base\' tag selector");;
+        let base_selector = Selector::parse(r#"base"#).expect("could not unwrap <base> tag selector");
         if let Some(base_tag) = document.select(&base_selector).nth(1) {
             if let Some(href) = base_tag.value().attr("href") {
-                base_url = Url::parse(href).unwrap_or(website.url.clone()); //todo: fix redundent assignment
+                base_url = Url::parse(href).unwrap_or(website.url.clone()); //TODO: fix redundent assignment (line 52)
             }
         }
 
@@ -62,7 +62,7 @@ impl LinkParser {
                 if !self.cache.contains(href) {
                     let url: Url;
                     if Self::is_relative_link(href) {
-                        url = base_url.join(href).unwrap();
+                        url = base_url.join(href).unwrap();   //TODO: fix bad error handling.
                     } else {
                         url = Url::parse(href).unwrap();
                     }
@@ -77,25 +77,11 @@ impl LinkParser {
     }
 
     //TODO: fix bug that causes 'mailto: ' to be counted as a relative link.
-    fn is_relative_link(url: &str) -> bool { //TODO: make 'http_regex' static with 'lazy_static!'
+    fn is_relative_link(url: &str) -> bool {
         lazy_static! {
             static ref HTTP_REGEX: Regex = Regex::new(r#"^http"#).expect("failed to unwrap regex in src/link_parser");
         }
 
         !HTTP_REGEX.is_match(url)
-    }
-}
-
-
-
-
-pub struct Config {
-    timeout: u64,
-    max_redirects: usize,
-}
-
-impl Config {
-    pub fn new(timeout: u64, max_redirects: usize) -> Self {
-        Self { timeout: timeout, max_redirects: max_redirects }
     }
 }

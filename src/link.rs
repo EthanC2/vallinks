@@ -1,5 +1,6 @@
 use reqwest::{Client, Url, Response, Result};
-//use backoff::{ExponentialBackoff, retry};
+use tokio_retry::Retry;
+use tokio_retry::strategy::{ExponentialBackoff, jitter};
 
 #[derive(Debug)]
 pub struct Link {
@@ -13,8 +14,16 @@ impl Link {
     }
 
     pub async fn get_status(&mut self, client: &Client) {
-        let url = self.href.clone();
-        let res = client.head(url).send().await;
-        self.response = Some(res);
+        let retry_stategy = ExponentialBackoff::from_millis(10)
+                                    .map(jitter)
+                                    .take(3);
+
+        let action = || async {
+            let url = self.href.clone();
+            client.head(url).send().await
+        };
+
+        let response = Retry::spawn(retry_stategy, action).await; 
+        self.response = Some(response);
     }
 }

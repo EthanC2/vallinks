@@ -1,0 +1,67 @@
+[200 OK] https://yahoo.com/ https://www.yahoo.com/
+[200 OK] https://yahoo.com/ https://mail.yahoo.com/
+[404 Not Found] https://yahoo.com/ https://news.yahoo.com/
+[404 Not Found] https://yahoo.com/ https://finance.yahoo.com/
+[404 Not Found] https://yahoo.com/ https://sports.yahoo.com/
+[200 OK] https://yahoo.com/ https://www.yahoo.com/entertainment/
+[200 OK] https://yahoo.com/ https://www.yahoo.com/lifestyle
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search/
+[200 OK] https://yahoo.com/ https://shopping.yahoo.com/
+[200 OK] https://yahoo.com/ https://www.yahoo.com/plus
+[404 Not Found] https://yahoo.com/ https://www.yahoo.com/everything/
+[404 Not Found] https://yahoo.com/ https://mobile.yahoo.com/yahoo
+[200 OK] https://yahoo.com/ https://login.yahoo.com/?.lang=en-US&src=homepage
+[200 OK] https://yahoo.com/ https://www.yahoo.com/lifestyle/
+[200 OK] https://yahoo.com/ https://news.yahoo.com/coronavirus
+[200 OK] https://yahoo.com/ https://shopping.yahoo.com/sales/subscription?ncid=mbr_ryhacqlnk00000059
+[200 OK] https://yahoo.com/ https://www.yahoo.com/plus?ncid=mbr_ryhacqnav00000038
+[200 OK] https://yahoo.com/ https://news.yahoo.com/police-respond-july-4-parade-161820151.html
+[200 OK] https://yahoo.com/ https://yahoo.com/news/justice-dept-braces-summer-violent-115309508.html
+[200 OK] https://yahoo.com/ https://yahoo.com/news/black-women-underserved-comes-birth-075038093.html
+[200 OK] https://yahoo.com/ https://yahoo.com/news/harry-styles-concert-canceled-copenhagen-002846898.html
+[200 OK] https://yahoo.com/ https://yahoo.com/money/home-sellers-housing-market-200114132.html
+[200 OK] https://yahoo.com/ https://yahoo.com/news/army-bases-honor-confederate-traitors-115801444.html
+[200 OK] https://yahoo.com/ https://yahoo.com/news/virginia-law-stops-early-inmate-122151287.html
+[200 OK] https://yahoo.com/ https://login.yahoo.com/?.lang=en-US&.done=https%3A%2F%2Fwww.yahoo.com&activity=strm-filter-signin&pspid=2023538075&src=homepage-filters
+[200 OK] https://yahoo.com/ https://www.yahoo.com/plus/mail?ncid=mbr_ympacqad00000015
+[200 OK] https://yahoo.com/ https://yahoo.com/lifestyle/often-shower-dermatologist-100000247.html
+[200 OK] https://yahoo.com/ https://yahoo.com/lifestyle/kendall-jenner-wore-bikini-version-162659520.html
+[200 OK] https://yahoo.com/ https://yahoo.com/lifestyle/tracy-moore-vacation-swimsuit-post-134312459.html
+[200 OK] https://yahoo.com/ https://yahoo.com/news/rustic-private-island-maine-market-141500239.html
+[200 OK] https://yahoo.com/ https://yahoo.com/finance/news/housing-correction-dead-ahead-warns-143500913.html
+[200 OK] https://yahoo.com/ https://yahoo.com/lifestyle/kate-hudson-topless-photo-coffee-self-care-181217706.html
+[200 OK] https://yahoo.com/ https://yahoo.com/lifestyle/kate-hudson-posted-topless-photo-163000777.html
+[200 OK] https://yahoo.com/ https://yahoo.com/entertainment/kate-hudson-shares-topless-photo-223722471.html
+[200 OK] https://yahoo.com/ https://yahoo.com/news/police-identify-suspect-victims-haltom-221259494.html
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search?p=Todd+Chrisley&fr=fp-tts&fr2=p:fp,m:tn,ct:all,kt:org
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search?p=Anime&fr=fp-tts&fr2=p:fp,m:tn,ct:all,kt:org
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search?p=Ezra+Miller&fr=fp-tts&fr2=p:fp,m:tn,ct:all,kt:org
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search?p=Teresa+Giudice&fr=fp-tts&fr2=p:fp,m:tn,ct:all,kt:org
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search?p=Personal+Loans&fr=fp-tts&fr2=p:fp,m:tn,ct:all,kt:rev
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search?p=Wwe+Money+In+The+Bank+2022&fr=fp-tts&fr2=p:fp,m:tn,ct:all,kt:org
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search?p=Highest+Yield+CDs&fr=fp-tts&fr2=p:fp,m:tn,ct:all,kt:rev
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search?p=Gold+Roth+IRA&fr=fp-tts&fr2=p:fp,m:tn,ct:all,kt:rev
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search?p=Boston+Red+Sox&fr=fp-tts&fr2=p:fp,m:tn,ct:all,kt:org
+[200 OK] https://yahoo.com/ https://search.yahoo.com/search?p=Kate+Hudson&fr=fp-tts&fr2=p:fp,m:tn,ct:all,kt:org
+[200 OK] https://yahoo.com/ https://overview.mail.yahoo.com/
+[404 Not Found] https://yahoo.com/ https://www.yahoo.com/news/weather/united-states/texas/midlothian-2450510
+[200 OK] https://yahoo.com/ https://login.yahoo.com/account/preferences?lang=en-US&region=US
+[404 Not Found] https://yahoo.com/ https://sports.yahoo.com/mlb/tampa-bay-rays-boston-red-sox-420704102/
+[404 Not Found] https://yahoo.com/ https://sports.yahoo.com/mlb/texas-rangers-baltimore-orioles-420704101/
+[404 Not Found] https://yahoo.com/ https://sports.yahoo.com/mlb/cleveland-guardians-detroit-tigers-420704206/
+[404 Not Found] https://yahoo.com/ https://sports.yahoo.com/
+[200 OK] https://yahoo.com/ https://www.yahoo.com/lifestyle/horoscope/cancer/daily-20220704.html
+[200 OK] https://yahoo.com/ https://baseball.fantasysports.yahoo.com/b1/signup
+[200 OK] https://yahoo.com/ https://twitter.com/yahoo
+[200 OK] https://yahoo.com/ https://facebook.com/yahoo
+[405 Method Not Allowed] https://yahoo.com/ https://www.instagram.com/yahoo/
+[200 OK] https://yahoo.com/ https://www.youtube.com/yahoo
+[200 OK] https://yahoo.com/ https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html
+[200 OK] https://yahoo.com/ https://legal.yahoo.com/us/en/yahoo/privacy/index.html
+[200 OK] https://yahoo.com/ https://guce.yahoo.com/privacy-dashboard?locale=en-US
+[200 OK] https://yahoo.com/ https://www.adtech.yahooinc.com/advertising/solutions/dsp
+[200 OK] https://yahoo.com/ https://legal.yahoo.com/us/en/yahoo/privacy/adinfo/index.html
+[200 OK] https://yahoo.com/ https://www.yahooinc.com/careers/
+[500 Internal Server Error] https://yahoo.com/ https://help.yahoo.com/kb/account
+[200 OK] https://yahoo.com/ https://yahoo.uservoice.com/forums/341361-yahoo-home?browser=&bucket=201&os=&partner=none&location=US&rid=0c4n58dhc6ant
+

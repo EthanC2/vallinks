@@ -1,4 +1,4 @@
-use reqwest::{Client, Url, Result};
+use reqwest::{Client, Url, Result, IntoUrl};
 
 use crate::link::Link;
 
@@ -9,10 +9,8 @@ pub struct Website {
 }
 
 impl Website {
-    pub fn new<TStr>(url: &TStr) -> Self where TStr: AsRef<str> {
-        let url = Url::parse(url.as_ref())
-                        .expect(&format!("fatal: invalid website url format: {}", url.as_ref()));
-        
+    pub fn new<T: IntoUrl>(url: T) -> Self {
+        let url = url.into_url().unwrap(); //TODO: fix bad error handling
         Self {url: url, links: Vec::new()}
     }
 
