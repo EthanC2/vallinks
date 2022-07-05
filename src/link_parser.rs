@@ -43,19 +43,11 @@ impl LinkParser {
         Self {http_client: client, cache: HashSet::new() }
     }
 
-    /* Note: a <base> tag MAY not have a 'href': https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base */
     pub async fn get_links(&mut self, website: &mut Website) -> reqwest::Result<()> {
         let html = website.get_html(&self.http_client).await?;
         let document = Html::parse_document(&html);
         let link_selector = Selector::parse(r#"a"#).expect("could not unwrap <a> tag selector");
-
-        let mut base_url: Url = website.url.clone();
-        let base_selector = Selector::parse(r#"base"#).expect("could not unwrap <base> tag selector");
-        if let Some(base_tag) = document.select(&base_selector).nth(1) {
-            if let Some(href) = base_tag.value().attr("href") {
-                base_url = Url::parse(href).unwrap_or(website.url.clone()); //TODO: fix redundent assignment (line 52)
-            }
-        }
+        let base_url = Self::get_base_url(&document).unwrap_or(website.url.clone());
 
         for a_tag in document.select(&link_selector) {
             if let Some(href) = a_tag.value().attr("href") {
@@ -74,6 +66,19 @@ impl LinkParser {
         }
 
         Ok(())
+    }
+
+    /* Note: a website may not have a base URL even if they have a <base> tag, in which case
+       the base URL defaults the current URL. Read more at https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base */
+    pub fn get_base_url(document: &Html) -> Option<Url> {
+        let base_selector = Selector::parse(r#"base"#).expect("could not unwrap <base> tag selector");
+        if let Some(base_tag) = document.select(&base_selector).nth(1) {
+            if let Some(href) = base_tag.value().attr("href") {
+                return Url::parse(href).ok();
+            }
+        }
+
+        None
     }
 
     //TODO: fix bug that causes 'mailto: ' to be counted as a relative link.

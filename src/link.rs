@@ -2,7 +2,6 @@ use reqwest::{Client, Url, Response, Result};
 use tokio_retry::Retry;
 use tokio_retry::strategy::{ExponentialBackoff, jitter};
 
-#[derive(Debug)]
 pub struct Link {
     pub href: Url,
     pub response: Option<Result<Response>>,

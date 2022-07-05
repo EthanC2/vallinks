@@ -43,12 +43,12 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                         .default_value("10")
                         .action(ArgAction::Set)
                     )
-                    .arg(Arg::new("quiet")
-                        .short('q')
-                        .long("quiet")
-                        .help("Suppresses logging links, reporting only broken links")
-                        .default_value("true")
-                        .action(ArgAction::SetFalse)
+                    .arg(Arg::new("all")
+                        .short('a')
+                        .long("all")
+                        .help("Prints working links in addition to the broken ones")
+                        .default_value("false")
+                        .action(ArgAction::SetTrue)
                     )
                     .get_matches();
 
@@ -56,7 +56,7 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     //TODO: clean up cmdline param initialization
     let timeout = matches.get_one("timeout").expect("default");
     let max_redirects = matches.get_one("max-redirects").expect("default");
-    let print_good_links = *matches.get_one("quiet").expect("default");
+    let print_all = *matches.get_one("all").expect("default");
 
     let mut websites = matches.get_many::<String>("website")
                                         .expect("required")
@@ -69,7 +69,8 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
 
     //2. Parse each website in the list of websites
     for website in websites.iter_mut() {
-        if parser.get_links(website).await.is_ok() {
+        let response = parser.get_links(website).await;
+        if response.is_ok() {
             let futures = website.links
                                                                                 .iter_mut()
                                                                                 .map(|link|link.get_status(&parser.http_client));
@@ -77,14 +78,14 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
 
             for link in website.links.iter() {
                 match &link.response {
-                    Some(Ok(res)) if res.status().is_success() => if print_good_links {println!("[{}] {} {}", res.status(), website.url, link.href)},
+                    Some(Ok(res)) if res.status().is_success() => if print_all {println!("[{}] {} {}", res.status(), website.url, link.href)},
                     Some(Ok(res)) => println!("[{}] {} {}", res.status(), website.url, link.href),
-                    Some(Err(error)) => eprintln!("error on : {}", error),
+                    Some(Err(error)) => eprintln!("failed to send HTTP request to {} with error: {}", link.href, error),
                     None => eprintln!("error: link did not contain href attribute"),  //TODO: fix dead code
                 }
             }
         } else {
-            eprintln!("ERROR: could not reach {}", website.url);
+            eprintln!("{}", response.unwrap_err());
         }
         println!();
     }

@@ -2,7 +2,6 @@ use reqwest::{Client, Url, Result, IntoUrl};
 
 use crate::link::Link;
 
-#[derive(Debug)]
 pub struct Website {
     pub url: Url, 
     pub links: Vec<Link>,

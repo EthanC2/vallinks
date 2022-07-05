@@ -21,4 +21,4 @@ A website, represented by an HTML document
 
 # Known Bugs
 - Hyperlinks that do not use the HTTP(S) protocol are considered relative links (src/link_parser::is_relative_link()).
-- Subdomains (e.g. 'https://sports.yahoo.com') always yield HTTP status 404
+- Subdomains (e.g. 'https://sports.yahoo.com') always yield HTTP status 404 (???)
