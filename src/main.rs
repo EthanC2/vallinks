@@ -72,8 +72,8 @@ async fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
         let response = parser.get_links(website).await;
         if response.is_ok() {
             let futures = website.links
-                                                                                .iter_mut()
-                                                                                .map(|link|link.get_status(&parser.http_client));
+                                 .iter_mut()
+                                 .map(|link|link.get_status(&parser.http_client));
             futures::future::join_all(futures).await;
 
             for link in website.links.iter() {
